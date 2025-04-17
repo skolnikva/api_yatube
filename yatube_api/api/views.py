@@ -4,6 +4,7 @@ from rest_framework.exceptions import PermissionDenied
 from posts.models import Post, Comment, Group
 from .serializers import PostSerializer, CommentSerializer, GroupSerializer
 
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -23,10 +24,11 @@ class PostViewSet(viewsets.ModelViewSet):
             raise PermissionDenied('Удаление чужого контента запрещено!')
         instance.delete()
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated] # Требовать аутентификацию для всех действий с комментариями
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Comment.objects.filter(post_id=self.kwargs['post_id'])
@@ -47,8 +49,9 @@ class CommentViewSet(viewsets.ModelViewSet):
             raise PermissionDenied('Удаление чужого комментария запрещено!')
         instance.delete()
 
+
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated] # Требовать аутентификацию для просмотра групп
+    permission_classes = [permissions.IsAuthenticated]

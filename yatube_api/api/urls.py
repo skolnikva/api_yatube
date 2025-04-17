@@ -9,13 +9,10 @@ router.register(r'posts', PostViewSet, basename='posts')
 router.register(r'groups', GroupViewSet, basename='groups')
 
 urlpatterns = [
-    # Путь для получения токена
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
-    # Путь для работы с ресурсами (посты, группы и т.д.)
-    path('', include(router.urls)), # Измените на пустую строку, так как 'api/v1/' уже определен в корневом urls.py
+    path('', include(router.urls)),
 
-    # Путь для работы с комментариями
     path('posts/<int:post_id>/comments/', CommentViewSet.as_view({
         'get': 'list',
         'post': 'create'
